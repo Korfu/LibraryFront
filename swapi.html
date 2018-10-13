@@ -1,0 +1,172 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+        <style>
+            .detailRow{
+                margin-top:10px;
+                margin-bottom:10px;
+            }
+            .active{
+                background-color:aqua;
+            }
+            table{
+                width:100%;
+            }
+            td, th{
+                width:50%;    
+            }
+            tr{
+                cursor:pointer;
+                background-color: whitesmoke;
+            }
+            .loading{
+                color:grey;
+            }
+            .detailRow span:first-child{
+                font-weight:bold;
+            }
+        </style>
+        <script>
+            $(function(){
+               // Call the api and create table in the success method
+    
+                        $.ajax({
+                        url: 'https://swapi.co/api/planets/',
+                        type: 'get',
+                        success: function(data) {
+                                //alert('success!');
+                                var planetsList = data.results;
+                                createTableRows(planetsList);
+                                
+                        },
+                        error: function(data){
+                                //alert('error');
+                            }  
+                    })
+            });
+             function createTableRows(planetsList){
+                var i =0;
+                 planetsList.forEach(planet => {
+                     addSingleRow(planetsList[i]);
+                     i++;
+                  //  $('#planetsTable > tbody:last-child').append('<tr class="newPlanet"><td >'+planet.name+'</td><td>'+planet.population+'</td><td><input type="hidden" value='+planet.url +'></input></td></tr>');
+                 });
+                 addClickEventRoRows();
+                
+             
+             }
+            function addSingleRow(planet){
+                var rowElement = $(document.createElement('tr'))
+                rowElement.append('<td>'+ planet.name +'</td>');
+                rowElement.append('<td>'+ planet.population +'</td>');
+                rowElement.append('<td><input type="hidden" value='+ planet.url +'></input></td>');
+                $('#planetsTable tbody').append(rowElement);
+            }
+            
+            function addClickEventRoRows (){
+                $("tbody tr").click(function() {
+                    $('.active').removeClass("active");
+                    $(this).addClass("active");
+                    var detailsUrl = $(this).find('input[type=hidden]').val();
+                    populateDetailsurl(detailsUrl);
+                });
+            }
+            
+            function populateDetailsurl(url) {
+ 
+                $('.details').addClass('loading');
+                $.get({
+                    url: url,
+                    success: function(data) {
+                        populateDetailsFields(data);    
+                        },
+                        error: function(data){
+                            }  
+                })
+            }
+            function populateDetailsFields(planet) {
+                                $('#detailsName').text(planet.name);
+                                $('#detailspopulation').text(planet.population);
+                                $('#detailsDiameter').text(planet.diameter);
+                                $('#detailsClimate').text(planet.climate);
+                                $('#detailsTerrain').text(planet.terrain);
+            }
+            // $(function(){
+            // $('#planetsTable').on('click', '.newPlanet', function() {
+            //     $('.active').removeClass("active");
+            //     $(this).addClass("active");
+                
+            //     var url = $(this).closest('tr').find('input[type="hidden"]').val();
+            //     console.log(url);
+                
+            //     $.ajax({
+            //             url: url,
+            //             type: 'get',
+            //             success: function(data) {
+            //                     var planet = data;
+            //                     $('#detailsName').text(planet.name);
+            //                     $('#detailspopulation').text(planet.population);
+            //                     $('#detailsDiameter').text(planet.diameter);
+            //                     $('#detailsClimate').text(planet.climate);
+            //                     $('#detailsTerrain').text(planet.terrain);
+                                
+            //             },
+            //             error: function(data){
+            //                 }  
+            //         })
+               
+            //     });
+                
+        
+            // });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-xs-9">
+                <div class="tableContainer">
+                    <h2>Star Wars Planets</h2>
+                    <table id="planetsTable">
+                        <thead>
+                            <tr>
+                                <th>Name<input id="nameInput" type='hidden'> </th>
+                                <th>Population<input id="populationInput" type='hidden'></th>
+                            </tr>
+                           
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="details">
+                    <div class="detailRow row">
+                        <span class="col-xs-12">Name: <div id="detailsName">x</div></span>
+                        <span id="name" class="col-xs-12"></span>
+                    </div>
+                    <div class="detailRow row">
+                        <span class="col-xs-12">Population: <div id="detailspopulation">x</div></span>
+                        <span id="population" class="col-xs-12"></span>
+                    </div>
+                    <div class="detailRow row">
+                        <span class="col-xs-12">Diameter: <div id="detailsDiameter">x</div></span>
+                        <span id="diameter" class="col-xs-12"></span>
+                    </div>
+                    <div class="detailRow row">
+                        <span class="col-xs-12">Climate: <div id="detailsClimate">x</div></span>
+                        <span id="climate" class="col-xs-12"></span>
+                    </div>
+                    <div class="detailRow row">
+                        <span class="col-xs-12">Terrain: <div id="detailsTerrain">x</div></span>
+                        <span id="terrain" class="col-xs-12"></span>
+                    </div>
+                </div>
+            </div>    
+        </div>        
+    </body>
+</html>

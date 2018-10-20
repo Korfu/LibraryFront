@@ -11,7 +11,9 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Customers</h1>
+    
+    <div class="col-xs-9">
+            <h1>Customers</h1>
     <table class="table" id="customersTable">
         <thead>
             <th>Id</th>
@@ -23,5 +25,20 @@
         </tbody>
         
     </table>
+    </div>
+    <div class="col-xs-3">
+        <h1>Details</h1>
+        <table class="table" id="customerDetails">
+            <tr class="detailRow row">
+                <span class="col-xs-12">Id: <div id="detailsId">x</div></span>
+            </tr>
+            <tr class="detailRow row">
+                <span class="col-xs-12">Name: <div id="detailsName">x</div></span>
+            </tr>
+            <tr class="detailRow row">
+                <span class="col-xs-12">Surname: <div id="detailsSurname">x</div></span>
+            </tr>
+    </table>
+    </div>    
 </body>
 </html>

@@ -27,7 +27,21 @@ $(function(){
             rowElement.append('<td>'+ customer.id +'</td>');
             rowElement.append('<td>'+ customer.name +'</td>');
             rowElement.append('<td>'+ customer.surname +'</td>');
+            rowElement.append('<td><button class = "btn btn-primary">DETAILS</button></td>');
+            rowElement.append('<td><button class = "btn btn-warning">EDIT</button></td>');
+            rowElement.append('<td><button class = "btn btn-danger">DELETE</button></td>');
             $('#customersTable tbody').append(rowElement);
 
         }
+
+        $('.btn-primary').on('click', function() {
+
+
+
+
+            $('#detailsId').text(customer.id);
+            $('#detailsName').text(customer.name);
+            $('#detailsSurame').text(customer.surname);
+        })
+
  });
